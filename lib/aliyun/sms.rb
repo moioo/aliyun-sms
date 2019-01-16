@@ -35,14 +35,15 @@ module Aliyun
         yield(configuration)
       end
 
-      def send(phone_numbers, template_code, template_param, out_id = '')
+      def send(phone_numbers, template_code, template_param, out_id = '', sign_name = nil)
         Typhoeus.get(get_url({
           'PhoneNumbers' => phone_numbers,
           'TemplateCode' => template_code,
           'TemplateParam' => template_param,
           'OutId'	=> out_id,
           'SignatureNonce' => seed_signature_nonce,
-          'Timestamp' => seed_timestamp
+          'Timestamp' => seed_timestamp,
+          'SignName' => (sign_name || configuration.sign_name)
           }))
       end
 
